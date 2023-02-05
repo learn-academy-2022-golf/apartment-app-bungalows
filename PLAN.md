@@ -91,9 +91,11 @@ type in routes in the url ---> website to see rails routes
 
 - TESTING
  - if there is an error
+
  ```bash
   /Users/charleanbaxter/.rvm/gems/ruby-3.0.0/gems/rspec-core-3.12.0/lib/rspec/core/reporter.rb:237:in `require': cannot load such file -- rspec/core/profiler (LoadError)
 ```
+
  $ bundle exec rspec spec
 
  https://stackoverflow.com/questions/6588674/what-does-bundle-exec-rake-mean#:~:text=This%20difference%20in%20versions%20can,the%20magic%20of%20shell%20aliases.
@@ -111,3 +113,203 @@ $ bundle update
 
 NOTE: Trello states there is an error. If one is not available, update trello to say
     - Each member should be able to run rspec spec without errors and see 0 examples, 0 failures.
+
+## validation branch
+Model-level validations are the best way to ensure that only valid data is saved into your database. They are database agnostic, cannot be bypassed by end users, and are convenient to test and maintain. Rails provides built-in helpers for common needs, and allows you to create your own validation methods as well.
+Before saving an Active Record object, Rails runs your validations. If these validations produce any errors, Rails does not save the object.
+
+After Active Record has performed validations, any errors found can be accessed through the errors instance method, which returns a collection of errors. By definition, an object is valid if this collection is empty after running validations.
+
+spec/models
+
+https://github.com/learn-academy-2022-foxtrot/apartment-app-astronaut
+
+let/let!/before memoized helper methods - saving a method's return value so it does not have to be recomputed each time
+https://chrisarcand.com/memoized-helpers-and-before-hooks-in-rspec/#:~:text=let%20defines%20a%20memoized%20helper,It's%20not%20cached%20across%20examples.
+
+let(:a_thing) { code_that_creates_a_thing }
+
+  before(:each) do
+    a_thing
+  end
+
+let!(:a_thing) { code_that_creates_a_thing }
+
+```ruby
+  let(:user) { User.create email: "test@example.com", password: "password", password_confirmation: "password" }
+
+  it "should have a valid street" do
+    apartment = user.apartments.create(
+      city: "Bikini Bottom",
+      state: "Pacific Ocean",
+      manager: "Mustachio Jones",
+      email: "mjones@example.com",
+      price: "1000 sand dollars",
+      bedrooms: 2,
+      bathrooms: 2,
+      pets: "yes",
+      image: "https://images.thedailystar.net/sites/default/files/styles/very_big_201/public/feature/images/who_lives_in_a_pineapple_under_the_sea.jpg?itok=iYr37hhG"
+    )
+    expect(apartment.errors[:street]).to include "can't be blank"
+  end
+
+  it "should have a valid city" do
+    apartment = user.apartments.create(
+      street: "221B Sandy Street",
+      state: "Pacific Ocean",
+      manager: "Mustachio Jones",
+      email: "mjones@example.com",
+      price: "1000 sand dollars",
+      bedrooms: 2,
+      bathrooms: 2,
+      pets: "yes",
+      image: "https://images.thedailystar.net/sites/default/files/styles/very_big_201/public/feature/images/who_lives_in_a_pineapple_under_the_sea.jpg?itok=iYr37hhG"
+    )
+    expect(apartment.errors[:city]).to include "can't be blank"
+  end
+
+  it "should have a valid state" do
+    apartment = user.apartments.create(
+      street: "221B Sandy Street",
+      city: "Bikini Bottom",
+      manager: "Mustachio Jones",
+      email: "mjones@example.com",
+      price: "1000 sand dollars",
+      bedrooms: 2,
+      bathrooms: 2,
+      pets: "yes",
+      image: "https://images.thedailystar.net/sites/default/files/styles/very_big_201/public/feature/images/who_lives_in_a_pineapple_under_the_sea.jpg?itok=iYr37hhG"
+    )
+    expect(apartment.errors[:state]).to include "can't be blank"
+  end
+
+  it "should have a valid manager" do
+    apartment = user.apartments.create(
+      street: "221B Sandy Street",
+      city: "Bikini Bottom",
+      state: "Pacific Ocean",
+      email: "mjones@example.com",
+      price: "1000 sand dollars",
+      bedrooms: 2,
+      bathrooms: 2,
+      pets: "yes",
+      image: "https://images.thedailystar.net/sites/default/files/styles/very_big_201/public/feature/images/who_lives_in_a_pineapple_under_the_sea.jpg?itok=iYr37hhG"
+    )
+    expect(apartment.errors[:manager]).to include "can't be blank"
+  end
+
+  it "should have a valid email" do
+    apartment = user.apartments.create(
+      street: "221B Sandy Street",
+      city: "Bikini Bottom",
+      state: "Pacific Ocean",
+      manager: "Mustachio Jones",
+      price: "1000 sand dollars",
+      bedrooms: 2,
+      bathrooms: 2,
+      pets: "yes",
+      image: "https://images.thedailystar.net/sites/default/files/styles/very_big_201/public/feature/images/who_lives_in_a_pineapple_under_the_sea.jpg?itok=iYr37hhG"
+    )
+    expect(apartment.errors[:email]).to include "can't be blank"
+  end
+
+  it "should have a valid price" do
+    apartment = user.apartments.create(
+      street: "221B Sandy Street",
+      city: "Bikini Bottom",
+      state: "Pacific Ocean",
+      manager: "Mustachio Jones",
+      email: "mjones@example.com",
+      bedrooms: 2,
+      bathrooms: 2,
+      pets: "yes",
+      image: "https://images.thedailystar.net/sites/default/files/styles/very_big_201/public/feature/images/who_lives_in_a_pineapple_under_the_sea.jpg?itok=iYr37hhG"
+    )
+    expect(apartment.errors[:price]).to include "can't be blank"
+  end
+
+  it "should have valid bedrooms" do
+    apartment = user.apartments.create(
+      street: "221B Sandy Street",
+      city: "Bikini Bottom",
+      state: "Pacific Ocean",
+      manager: "Mustachio Jones",
+      email: "mjones@example.com",
+      price: "1000 sand dollars",
+      bathrooms: 2,
+      pets: "yes",
+      image: "https://images.thedailystar.net/sites/default/files/styles/very_big_201/public/feature/images/who_lives_in_a_pineapple_under_the_sea.jpg?itok=iYr37hhG"
+    )
+    expect(apartment.errors[:bedrooms]).to include "can't be blank"
+  end
+
+  it "should have valid bathrooms" do
+    apartment = user.apartments.create(
+      street: "221B Sandy Street",
+      city: "Bikini Bottom",
+      state: "Pacific Ocean",
+      manager: "Mustachio Jones",
+      email: "mjones@example.com",
+      price: "1000 sand dollars",
+      bedrooms: 2,
+      pets: "yes",
+      image: "https://images.thedailystar.net/sites/default/files/styles/very_big_201/public/feature/images/who_lives_in_a_pineapple_under_the_sea.jpg?itok=iYr37hhG"
+    )
+    expect(apartment.errors[:bathrooms]).to include "can't be blank"
+  end
+
+  it "should have valid pets" do
+    apartment = user.apartments.create(
+      street: "221B Sandy Street",
+      city: "Bikini Bottom",
+      state: "Pacific Ocean",
+      manager: "Mustachio Jones",
+      email: "mjones@example.com",
+      price: "1000 sand dollars",
+      bedrooms: 2,
+      bathrooms: 2,
+      image: "https://images.thedailystar.net/sites/default/files/styles/very_big_201/public/feature/images/who_lives_in_a_pineapple_under_the_sea.jpg?itok=iYr37hhG"
+    )
+    expect(apartment.errors[:pets]).to include "can't be blank"
+  end
+
+  it "should have a valid image" do
+    apartment = Apartment.create(
+      street: "221B Sandy Street",
+      city: "Bikini Bottom",
+      state: "Pacific Ocean",
+      manager: "Mustachio Jones",
+      email: "mjones@example.com",
+      price: "1000 sand dollars",
+      bedrooms: 2,
+      bathrooms: 2,
+      pets: "yes",
+      user_id: user.id
+    )
+    expect(apartment.errors[:image]).to_not be_empty
+  end
+
+  it "should have a valid user" do
+    apartment = Apartment.create(
+      street: "221B Sandy Street",
+      city: "Bikini Bottom",
+      state: "Pacific Ocean",
+      manager: "Mustachio Jones",
+      email: "mjones@example.com",
+      price: "1000 sand dollars",
+      bedrooms: 2,
+      bathrooms: 2,
+      pets: "yes",
+      image: "https://images.thedailystar.net/sites/default/files/styles/very_big_201/public/feature/images/who_lives_in_a_pineapple_under_the_sea.jpg?itok=iYr37hhG"
+    )
+    p "apartment.errors", apartment.errors[:user]
+    expect(apartment.errors[:user]).to include "must exist"
+  end
+```
+
+app/models/apartment.rb
+```ruby
+  validates :street, :city, :state, :manager, :email, :price, :bedrooms, :bathrooms, :pets, :image, :user_id, presence: true
+```
+validation helpers
+https://guides.rubyonrails.org/active_record_validations.html#validation-helpers
