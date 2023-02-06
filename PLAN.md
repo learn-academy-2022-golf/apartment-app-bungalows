@@ -114,7 +114,11 @@ $ bundle update
 NOTE: Trello states there is an error. If one is not available, update trello to say
     - Each member should be able to run rspec spec without errors and see 0 examples, 0 failures.
 
+
 ## validation branch
+
+https://github.com/learn-academy-2022-hotel/Syllabus/blob/main/rails/validations.md
+
 Model-level validations are the best way to ensure that only valid data is saved into your database. They are database agnostic, cannot be bypassed by end users, and are convenient to test and maintain. Rails provides built-in helpers for common needs, and allows you to create your own validation methods as well.
 Before saving an Active Record object, Rails runs your validations. If these validations produce any errors, Rails does not save the object.
 
@@ -313,3 +317,26 @@ app/models/apartment.rb
 ```
 validation helpers
 https://guides.rubyonrails.org/active_record_validations.html#validation-helpers
+
+
+## index branch
+
+https://github.com/learn-academy-2022-hotel/Syllabus/blob/main/cat-tinder/frontend/cat-read.md
+
+- App.js
+  - pass apartments to ApartmentIndex apts={apartments}
+  - index fetch request (completed)
+  - endpoint
+      app/controllers/apartments_controller.rb
+    https://github.com/learn-academy-2022-hotel/Syllabus/blob/main/cat-tinder/backend/api-endpoints.md  
+
+- Index
+  - accepts {apts}
+  - price, location, bath, bed, and image displayed on card
+  - reactstrap card components
+
+- Test
+  - import mock data and pass to component call
+  - test that a card appears
+  
+
