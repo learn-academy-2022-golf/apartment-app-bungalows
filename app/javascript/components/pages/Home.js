@@ -15,11 +15,16 @@ const Home = ({
   return (
     <>
       <img src={homePhoto} alt="entrance to treehouse"/>
-      <Button color="info" onClick={toggle} href="/apartmentindex">
-        Proceed to See Available Apartments
-      </Button>
+      {logged_in &&
+        <Button color="info" onClick={toggle} href="/apartmentindex">
+          Proceed to See Available Apartments
+        </Button>
+      }
       {!logged_in &&
         <div>
+          <Button color="info" onClick={toggle}>
+            Proceed to See Available Apartments
+          </Button>
           <Modal isOpen={modal} toggle={toggle} fullscreen>
             <ModalHeader toggle={toggle}>Limited View</ModalHeader>
             <ModalBody>
