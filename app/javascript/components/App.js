@@ -32,7 +32,7 @@ const App = (props) => {
       <Header {...props} />
       <Routes>
         <Route exact path="/" element={<Home {...props}/>} />
-        <Route path="/apartmentindex" element={<ApartmentIndex apts={apartments} />} />
+        <Route path="/apartmentindex" element={<ApartmentIndex apts={apartments} loggedIn={props.logged_in}/>} />
         <Route path="/apartmentshow" element={<ApartmentShow />} />
         <Route path="/apartmentnew" element={<ApartmentNew />} />
         <Route path="/apartmentedit" element={<ApartmentEdit />} />
