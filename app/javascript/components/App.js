@@ -31,8 +31,8 @@ const App = (props) => {
     <BrowserRouter>
       <Header {...props} />
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/apartmentindex" element={<ApartmentIndex apts={apartments} />} />
+        <Route exact path="/" element={<Home {...props}/>} />
+        <Route path="/apartmentindex" element={<ApartmentIndex apts={apartments} loggedIn={props.logged_in}/>} />
         <Route path="/apartmentshow" element={<ApartmentShow />} />
         <Route path="/apartmentnew" element={<ApartmentNew />} />
         <Route path="/apartmentedit" element={<ApartmentEdit />} />
