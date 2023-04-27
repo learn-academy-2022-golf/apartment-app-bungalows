@@ -4,6 +4,7 @@ const ApartmentIndex = ({apts, loggedIn}) => {
   // console.log(apts)
   return (
     <div>
+      <h2>Where there is currency, there is vacancy.</h2>
       {loggedIn ? 
         <>
           {apts?.map((apt, index) => {
@@ -23,10 +24,7 @@ const ApartmentIndex = ({apts, loggedIn}) => {
                     className="mb-2 text-muted"
                     tag="h6"
                   >
-                    <pre>
-                      {apt.street}
-                      {`${apt.city}, ${apt.state}`}
-                    </pre>
+                    {`${apt.street}, ${apt.city}, ${apt.state}`}
                   </CardSubtitle>
                   <Button>
                     More details
