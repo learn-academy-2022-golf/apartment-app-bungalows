@@ -13,19 +13,22 @@ describe("<ApartmentIndex />", () => {
     )
   })
   it("renders without crashing", () => {
+    // will show RTL methods available on current DOM
+    // console.log(
+    //   render(
+    //     <BrowserRouter>
+    //       <ApartmentIndex apts={mock} />
+    //     </BrowserRouter>
+    //   )
+    // )
     // screen.debug()
+    // screen.logTestingPlaygroundURL()
+    expect(screen.getByText("Where there is currency, there is vacancy.")).toBeInTheDocument()
   })
-  test("renders apartment cards", () => {
-    // iteration with forEach to find street
-    mock.forEach(apartment => {
-      const apartmentStreet = screen.getByText(/4 privet dr/i)
-      expect(apartmentStreet).toBeInTheDocument()
-    })
-
-    // AllBy RTL method to obtain image
-    const apartmentImage = screen.getAllByRole("img")
-    // screen.debug(apartmentImage[0])
-    expect(apartmentImage[0]).toBeVisible()
-    expect(apartmentImage[0]).toHaveClass('card-img-top')
+  it("renders a card title", () => {
+    const aptTitle = screen.getAllByRole("heading", { name: /\$1000\/month/i })
+    expect(aptTitle[0]).toBeVisible()
+    expect(aptTitle[0]).toHaveClass('card-title')
   })
+  
 })
